@@ -1,0 +1,15 @@
+<litepal>
+<!--数据库名-->
+    <dbname value="cool_weather"/>
+<!--数据库版本号-->
+    <version value="1"/>
+<!--用于指定所有的映射模型-->
+    <list>
+        <mapping class="com.example.coolweatherl.db.Province"/>
+        <mapping class="com.example.coolweatherl.db.City"/>
+        <mapping class="com.example.coolweatherl.db.County"/>
+    </list>
+
+
+
+</litepal>
