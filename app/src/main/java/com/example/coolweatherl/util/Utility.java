@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.example.coolweatherl.db.City;
 import com.example.coolweatherl.db.County;
 import com.example.coolweatherl.db.Province;
+import com.example.coolweatherl.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,5 +90,33 @@ public class Utility {
 
         }
         return false;
+    }
+/*
+* 将返回来的JSON数据解析成Weather实体类
+* */
+    public static Weather handleWeatherResponse(String response){
+        try {
+            /*返回的数据类型
+            {"HeWeather":[{"status":"ok","basic":{},"aqi":{},"now":{}}]}
+            返回的数据中 最外 层  是  “{” ， “  }”返回的是  键/ 值形式的数据，
+
+            * 所以用JsonObject接收。
+            * 把返回的数据传入JSon对象，
+            * */
+            JSONObject jsonObject=new JSONObject(response);
+            /*
+            * 因为返回的数据JsonObject中存在数组,所以把数组传入jsonArray
+            * */
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather");
+            //因为这组数中只有一项对象，所以getJSONObject(0)用的是0
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+            /*解析出来的数据是这个 {"status":"ok","basic":{},"aqi":{},"now":{}}
+            * 把数据映射到我们之前定义好的GSON实体类，Weather.class.
+            * */
+            return new Gson().fromJson(weatherContent,Weather.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

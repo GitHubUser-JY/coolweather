@@ -1,6 +1,7 @@
 package com.example.coolweatherl.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -91,6 +92,7 @@ public class AreaFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
+            //position:选取的目录位置。
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (currentLevel==LEVEL_PROVINCE){
                     selectedProvince=provinceList.get(position);
@@ -98,6 +100,13 @@ public class AreaFragment extends Fragment {
                 }else if (currentLevel==LEVEL_CITY){
                     selectedCity=cityList.get(position);
                     queryCounties();
+                }
+                else if (currentLevel==LEVEL_COUNTY){
+                    String weatherId=countyList.get(position).getWeatherId();
+                    Intent intent=new Intent(getActivity(),WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
